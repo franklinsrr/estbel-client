@@ -3,9 +3,9 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/Input';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import Link from 'next/link';
 import { Separator } from '@radix-ui/react-separator';
 import { forgotPasswordSchema } from '@/schemas/auth';
@@ -17,7 +17,7 @@ export default function ForgotPasswordPage() {
   const form = useForm<TForgotPassworSchema>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: FORGOT_PASSWORD_DEFAULT_VALUES
-    
+
   });
 
   async function onSubmit(values: TForgotPassworSchema) {
@@ -38,7 +38,7 @@ export default function ForgotPasswordPage() {
         <div className="text-center">
           <h1 className="text-2xl font-bold">Restablece tu contraseña</h1>
           <p className="mt-2 text-sm text-gray-600">
-           Introduce tu e-mail y te enviaremos una contraseña temporal.
+            Introduce tu e-mail y te enviaremos una contraseña temporal.
           </p>
         </div>
         <Form {...form}>
