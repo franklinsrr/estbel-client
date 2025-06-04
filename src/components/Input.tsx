@@ -1,17 +1,17 @@
 "use client"
 
-import {FC, useState} from "react";
-import {Input as UIInput} from "@/components/ui/Input";
+import { FC, useState } from "react";
+import { Input as UIInput } from "@/components/ui/input";
 import { Mail, Lock, User, Search, Phone, Calendar, Eye, EyeOff } from "lucide-react";
 
 interface Props extends React.ComponentProps<"input"> {
     // Add any additional custom props here
 }
 
-export const Input:FC<Props> = (props)=> {
+export const Input: FC<Props> = (props) => {
     const { type, ...rest } = props;
     const [showPassword, setShowPassword] = useState(false);
-    
+
     const getIcon = () => {
         switch (type) {
             case 'email':
@@ -25,7 +25,7 @@ export const Input:FC<Props> = (props)=> {
                     >
                         {showPassword ? (
                             <Eye className="size-4" />
-                        
+
                         ) : (
                             <EyeOff className="size-4" />
                         )}
@@ -46,9 +46,9 @@ export const Input:FC<Props> = (props)=> {
 
     return (
         <div className="relative">
-            <UIInput 
-                {...rest} 
-                type={type === 'password' ? (showPassword ? 'text' : 'password') : type} 
+            <UIInput
+                {...rest}
+                type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
             />
             {getIcon() && (
                 <div className="absolute right-3 top-1/2 -translate-y-1/2">
