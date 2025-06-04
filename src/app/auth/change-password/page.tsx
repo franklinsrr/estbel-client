@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -10,7 +10,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/Form";
+} from "@/components/ui/form";
 import { Input } from "@/components/Input";
 import { formChangePasswordSchema } from "@/schemas/auth";
 import { TChangePasswordSchema } from "@/interfaces/auth";
