@@ -5,8 +5,11 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                <div className="w-4 h-4 bg-primary-foreground rounded-full"></div>
+              <div
+                className="w-8 h-8 bg-black flex items-center justify-center relative"
+                style={{ clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)' }}
+              >
+                <div className="w-4 h-4 bg-white rounded-full absolute top-6"></div>
               </div>
               <span className="text-lg font-semibold text-foreground">
                 Estbel
