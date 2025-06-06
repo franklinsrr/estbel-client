@@ -1,3 +1,11 @@
-export default function Page(){
-    return <div>dashboard home page</div>
+import Navbar from '@components/navbat';
+
+export default function Dashboard() {
+  return (
+    <div>
+      <Navbar />
+
+      <div className="flex flex-col gap-4">dashboard</div>
+    </div>
+  );
 }

@@ -5,19 +5,25 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/Input';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import Link from 'next/link';
 import { Separator } from '@radix-ui/react-separator';
 import { forgotPasswordSchema } from '@/schemas/auth';
 import { TForgotPassworSchema } from '@/interfaces/auth';
-import { FORGOT_PASSWORD_DEFAULT_VALUES } from '@/app/constants/auth';
+import { FORGOT_PASSWORD_DEFAULT_VALUES } from '@/constants/auth';
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
   const form = useForm<TForgotPassworSchema>({
     resolver: zodResolver(forgotPasswordSchema),
-    defaultValues: FORGOT_PASSWORD_DEFAULT_VALUES
-
+    defaultValues: FORGOT_PASSWORD_DEFAULT_VALUES,
   });
 
   async function onSubmit(values: TForgotPassworSchema) {
@@ -27,7 +33,9 @@ export default function ForgotPasswordPage() {
       router.push('/auth/change-password');
     } catch (error) {
       form.setError('root', {
-        message: 'Se ha producido un error al reiniciar su contraseña, vuelva a intentarlo.',
+        message:
+          'Se ha producido un error al reiniciar su contraseña, vuelva a intentarlo.' +
+          error,
       });
     }
   }
@@ -70,9 +78,14 @@ export default function ForgotPasswordPage() {
               className="w-full"
               disabled={form.formState.isSubmitting}
             >
-              {form.formState.isSubmitting ? 'Procesando...' : 'Restablecer contraseña'}
+              {form.formState.isSubmitting
+                ? 'Procesando...'
+                : 'Restablecer contraseña'}
             </Button>
-            <Separator orientation="horizontal" className="my-4 h-0.5 bg-gray-100" />
+            <Separator
+              orientation="horizontal"
+              className="my-4 h-0.5 bg-gray-100"
+            />
             <p className="text-xs text-center">
               <Link href="/auth/signin" className="hover:underline">
                 Back to login

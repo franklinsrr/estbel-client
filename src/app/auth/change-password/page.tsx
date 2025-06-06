@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/Input";
 import { formChangePasswordSchema } from "@/schemas/auth";
 import { TChangePasswordSchema } from "@/interfaces/auth";
-import { CHANGE_PASSWORD_DEFAULT_VALUES } from "@/app/constants/auth";
+import { CHANGE_PASSWORD_DEFAULT_VALUES } from "@/constants/auth";
 
 export default function ChangePasswordPage() {
   const form = useForm<TChangePasswordSchema>({

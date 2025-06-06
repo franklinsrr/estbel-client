@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/Input";
 import { formSignInSchema } from "@/schemas/auth";
-import { SIGNIN_DEFAULT_VALUES } from "@/app/constants/auth";
+import { SIGNIN_DEFAULT_VALUES } from "@/constants/auth";
 import { Separator } from "@radix-ui/react-separator";
 import Link from "next/link";
 import { TSignInSchema } from "@/interfaces/auth";
