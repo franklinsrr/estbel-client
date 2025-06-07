@@ -2,6 +2,10 @@
 
 import { useState } from 'react';
 
+/**
+ * Navbar is a component that displays a navigation bar with a logo, navigation links, and a dropdown menu.
+ * @returns {React.FC<NavbarProps>} Navbar component
+ */
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
