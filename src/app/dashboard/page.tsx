@@ -2,6 +2,10 @@ import Navbar from '@components/navbat';
 import CardStats from '@components/CardStats';
 import { cardStatsMock } from '@/constants/mock/card';
 
+/**
+ * Dashboard is a page that displays a dashboard with a navbar and a grid of card stats.
+ * @returns {React.FC<Dashboard>} Dashboard component
+ */
 export default function Dashboard() {
   return (
     <div>

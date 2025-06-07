@@ -1,11 +1,16 @@
 'use client';
 
 import { FC, useState } from 'react';
-import { Input as UIInput } from '@/components/ui/input';
 import { Mail, User, Search, Phone, Calendar, Eye, EyeOff } from 'lucide-react';
+import { Input as UIInput } from '@/components/ui/input';
 
 type Props = React.ComponentProps<'input'>;
 
+/**
+ * Input is a component that displays a text input with an optional icon.
+ * @param {Props} props - Props
+ * @returns {React.FC<Props>} Input component
+ */
 export const Input: FC<Props> = props => {
   const { type, ...rest } = props;
   const [showPassword, setShowPassword] = useState(false);

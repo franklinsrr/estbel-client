@@ -17,6 +17,11 @@ export interface CardStatsProps {
   longDescription: string;
 }
 
+/**
+ * CardStats is a component that displays a title, value, percentage, description, and long description.
+ * @param {CardStatsProps} props - CardStatsProps
+ * @returns {React.FC<CardStatsProps>} CardStats component
+ */
 const CardStats: React.FC<CardStatsProps> = ({
   title,
   value,
