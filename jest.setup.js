@@ -26,7 +26,7 @@ jest.mock('next/router', () => ({
 // Mock Next.js Image component
 jest.mock('next/image', () => ({
   __esModule: true,
-  default: (props) => {
+  default: props => {
     // eslint-disable-next-line jsx-a11y/alt-text
     return <img {...props} />;
   },
@@ -56,4 +56,3 @@ global.fetch = jest.fn();
 beforeEach(() => {
   jest.clearAllMocks();
 });
-
