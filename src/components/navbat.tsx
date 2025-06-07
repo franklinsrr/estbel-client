@@ -1,7 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import { navbarLinks } from '@/constants/navbar/links';
 
+/**
+ * Navbar is a component that displays a navigation bar with a logo, navigation links, and a dropdown menu.
+ * @returns {React.FC<NavbarProps>} Navbar component
+ */
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -33,30 +38,15 @@ const Navbar = () => {
 
             {/* Navigation Links */}
             <nav className="hidden md:flex items-center space-x-6">
-              <a
-                href="/dashboard"
-                className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-              >
-                Dashboard
-              </a>
-              <a
-                href="/projects"
-                className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-              >
-                Eventos
-              </a>
-              <a
-                href="/analytics"
-                className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-              >
-                Miembros
-              </a>
-              <a
-                href="/analytics"
-                className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-              >
-                Asistencia
-              </a>
+              {navbarLinks.map(link => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+                >
+                  {link.label}
+                </a>
+              ))}
             </nav>
           </div>
 
