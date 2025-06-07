@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -10,16 +10,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/Input";
-import { formChangePasswordSchema } from "@/schemas/auth";
-import { TChangePasswordSchema } from "@/interfaces/auth";
-import { CHANGE_PASSWORD_DEFAULT_VALUES } from "@/constants/auth";
+} from '@/components/ui/form';
+import { Input } from '@/components/Input';
+import { formChangePasswordSchema } from '@/schemas/auth';
+import { TChangePasswordSchema } from '@/interfaces/auth';
+import { CHANGE_PASSWORD_DEFAULT_VALUES } from '@/constants/auth';
 
+/**
+ * ChangePasswordPage is a page that allows the user to change their password.
+ * @returns {React.FC<ChangePasswordPage>} ChangePasswordPage component
+ */
 export default function ChangePasswordPage() {
   const form = useForm<TChangePasswordSchema>({
     resolver: zodResolver(formChangePasswordSchema),
-    defaultValues: CHANGE_PASSWORD_DEFAULT_VALUES
+    defaultValues: CHANGE_PASSWORD_DEFAULT_VALUES,
   });
 
   function onSubmit(values: TChangePasswordSchema) {

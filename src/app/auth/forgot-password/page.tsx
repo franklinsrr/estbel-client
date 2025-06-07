@@ -19,6 +19,10 @@ import { forgotPasswordSchema } from '@/schemas/auth';
 import { TForgotPassworSchema } from '@/interfaces/auth';
 import { FORGOT_PASSWORD_DEFAULT_VALUES } from '@/constants/auth';
 
+/**
+ * ForgotPasswordPage is a page that allows the user to reset their password.
+ * @returns {React.FC<ForgotPasswordPage>} ForgotPasswordPage component
+ */
 export default function ForgotPasswordPage() {
   const router = useRouter();
   const form = useForm<TForgotPassworSchema>({
