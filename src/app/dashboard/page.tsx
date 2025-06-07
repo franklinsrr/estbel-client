@@ -1,6 +1,7 @@
 import Navbar from '@components/navbat';
 import CardStats from '@components/CardStats';
 import { cardStatsMock } from '@/constants/mock/card';
+import { ChartAreaInteractive } from '@/components/charts/AttendentHistoryChart';
 
 /**
  * Dashboard is a page that displays a dashboard with a navbar and a grid of card stats.
@@ -16,6 +17,9 @@ export default function Dashboard() {
           {cardStatsMock.map(card => (
             <CardStats key={card.id} {...card} />
           ))}
+        </section>
+        <section>
+          <ChartAreaInteractive />
         </section>
       </div>
     </div>
