@@ -60,6 +60,7 @@ export function ChartAreaInteractive() {
     startDate.setDate(startDate.getDate() - daysToSubtract);
     return date >= startDate;
   });
+
   return (
     <Card className="pt-0">
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
