@@ -42,7 +42,7 @@ const chartConfig = {
  * ChartAreaInteractive is a component that displays a chart of attendance history.
  * @returns {React.FC<ChartAreaInteractive>} ChartAreaInteractive component
  */
-export function ChartAreaInteractive() {
+export function AttendentHistoryChart({ className }: { className?: string }) {
   const [timeRange, setTimeRange] = useState('90d');
   const filteredData = AttendanceChartData.filter(item => {
     const date = new Date(item.date);
