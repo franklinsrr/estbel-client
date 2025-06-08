@@ -24,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { cn } from '@/lib/utils';
 export const description = 'An interactive area chart';
 import { AttendanceChartData } from '@/constants/mock/chart';
 
@@ -59,7 +60,7 @@ export function AttendentHistoryChart({ className }: { className?: string }) {
   });
 
   return (
-    <Card className="pt-0">
+    <Card className={cn('pt-0', className)}>
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1">
           <CardTitle>Histórico de asistencia</CardTitle>
