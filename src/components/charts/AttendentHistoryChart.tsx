@@ -32,11 +32,11 @@ const chartConfig = {
     label: 'Visitors',
   },
   desktop: {
-    label: 'Desktop',
+    label: 'Culto de oración',
     color: 'var(--primary)',
   },
   mobile: {
-    label: 'Mobile',
+    label: 'Escuela dominical',
     color: 'var(--chart-2)',
   },
 } satisfies ChartConfig;
@@ -65,9 +65,9 @@ export function ChartAreaInteractive() {
     <Card className="pt-0">
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1">
-          <CardTitle>Area Chart - Interactive</CardTitle>
+          <CardTitle>Histórico de asistencia</CardTitle>
           <CardDescription>
-            Showing total visitors for the last 3 months
+            Mostrar historico de asistencia de los ultimos 3 meses
           </CardDescription>
         </div>
         <Select value={timeRange} onValueChange={setTimeRange}>
@@ -79,13 +79,13 @@ export function ChartAreaInteractive() {
           </SelectTrigger>
           <SelectContent className="rounded-xl">
             <SelectItem value="90d" className="rounded-lg">
-              Last 3 months
+              Últimos 3 meses
             </SelectItem>
             <SelectItem value="30d" className="rounded-lg">
-              Last 30 days
+              Últimos 30 días
             </SelectItem>
             <SelectItem value="7d" className="rounded-lg">
-              Last 7 days
+              Últimos 7 días
             </SelectItem>
           </SelectContent>
         </Select>
@@ -131,7 +131,7 @@ export function ChartAreaInteractive() {
               minTickGap={32}
               tickFormatter={value => {
                 const date = new Date(value);
-                return date.toLocaleDateString('en-US', {
+                return date.toLocaleDateString('es-ES', {
                   month: 'short',
                   day: 'numeric',
                 });
@@ -142,7 +142,7 @@ export function ChartAreaInteractive() {
               content={
                 <ChartTooltipContent
                   labelFormatter={value => {
-                    return new Date(value).toLocaleDateString('en-US', {
+                    return new Date(value).toLocaleDateString('es-ES', {
                       month: 'short',
                       day: 'numeric',
                     });
