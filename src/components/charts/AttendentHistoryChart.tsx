@@ -28,9 +28,6 @@ export const description = 'An interactive area chart';
 import { AttendanceChartData } from '@/constants/mock/chart';
 
 const chartConfig = {
-  visitors: {
-    label: 'Visitors',
-  },
   desktop: {
     label: 'Culto de oración',
     color: 'var(--primary)',
