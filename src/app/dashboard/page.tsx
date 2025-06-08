@@ -4,6 +4,7 @@ import { cardStatsMock } from '@/constants/mock/card';
 import { AttendentHistoryChart } from '@/components/charts/AttendentHistoryChart';
 import { BirthdayCard } from '@/components/BirthdayCard';
 import { Separator } from '@components/ui/Separator';
+import { RecentEventsTable } from '@/components/RecentEventsTable';
 
 /**
  * Dashboard is a page that displays a dashboard with a navbar and a grid of card stats.
@@ -29,6 +30,9 @@ export default function Dashboard() {
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <AttendentHistoryChart className="col-span-1 md:col-span-2 lg:col-span-2" />
           <BirthdayCard />
+        </section>
+        <section>
+          <RecentEventsTable />
         </section>
       </div>
     </div>
