@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import { useState } from 'react';
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
 import {
   Card,
@@ -46,7 +46,7 @@ const chartConfig = {
  * @returns {React.FC<ChartAreaInteractive>} ChartAreaInteractive component
  */
 export function ChartAreaInteractive() {
-  const [timeRange, setTimeRange] = React.useState('90d');
+  const [timeRange, setTimeRange] = useState('90d');
   const filteredData = AttendanceChartData.filter(item => {
     const date = new Date(item.date);
     const referenceDate = new Date('2024-06-30');
