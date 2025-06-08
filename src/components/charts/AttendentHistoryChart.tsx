@@ -28,13 +28,13 @@ export const description = 'An interactive area chart';
 import { AttendanceChartData } from '@/constants/mock/chart';
 
 const chartConfig = {
-  desktop: {
+  prayerService: {
     label: 'Culto de oración',
-    color: 'var(--primary)',
-  },
-  mobile: {
-    label: 'Escuela dominical',
     color: 'var(--chart-2)',
+  },
+  sundaySchool: {
+    label: 'Escuela dominical',
+    color: 'var(--primary)',
   },
 } satisfies ChartConfig;
 
@@ -94,27 +94,33 @@ export function ChartAreaInteractive() {
         >
           <AreaChart data={filteredData}>
             <defs>
-              <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient
+                id="fillPrayerService"
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1"
+              >
                 <stop
                   offset="5%"
-                  stopColor="var(--color-desktop)"
+                  stopColor="var(--chart-2)"
                   stopOpacity={0.8}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-desktop)"
+                  stopColor="var(--chart-2)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
-              <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="fillSundaySchool" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--color-mobile)"
+                  stopColor="var(--primary)"
                   stopOpacity={0.8}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-mobile)"
+                  stopColor="var(--primary)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -149,17 +155,17 @@ export function ChartAreaInteractive() {
               }
             />
             <Area
-              dataKey="mobile"
+              dataKey="desktop"
               type="natural"
-              fill="url(#fillMobile)"
-              stroke="var(--color-mobile)"
+              fill="url(#fillPrayerService)"
+              stroke="var(--chart-2)"
               stackId="a"
             />
             <Area
-              dataKey="desktop"
+              dataKey="mobile"
               type="natural"
-              fill="url(#fillDesktop)"
-              stroke="var(--color-desktop)"
+              fill="url(#fillSundaySchool)"
+              stroke="var(--primary)"
               stackId="a"
             />
             <ChartLegend content={<ChartLegendContent />} />
