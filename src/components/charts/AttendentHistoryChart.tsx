@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import { useState } from 'react';
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
 import {
   Card,
@@ -24,20 +24,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { cn } from '@/lib/utils';
 export const description = 'An interactive area chart';
 import { AttendanceChartData } from '@/constants/mock/chart';
 
 const chartConfig = {
-  visitors: {
-    label: 'Visitors',
-  },
-  desktop: {
-    label: 'Desktop',
-    color: 'var(--chart-1)',
-  },
-  mobile: {
-    label: 'Mobile',
+  prayerService: {
+    label: 'Culto de oración',
     color: 'var(--chart-2)',
+  },
+  sundaySchool: {
+    label: 'Escuela dominical',
+    color: 'var(--primary)',
   },
 } satisfies ChartConfig;
 
@@ -45,8 +43,8 @@ const chartConfig = {
  * ChartAreaInteractive is a component that displays a chart of attendance history.
  * @returns {React.FC<ChartAreaInteractive>} ChartAreaInteractive component
  */
-export function ChartAreaInteractive() {
-  const [timeRange, setTimeRange] = React.useState('90d');
+export function AttendentHistoryChart({ className }: { className?: string }) {
+  const [timeRange, setTimeRange] = useState('90d');
   const filteredData = AttendanceChartData.filter(item => {
     const date = new Date(item.date);
     const referenceDate = new Date('2024-06-30');
@@ -60,13 +58,14 @@ export function ChartAreaInteractive() {
     startDate.setDate(startDate.getDate() - daysToSubtract);
     return date >= startDate;
   });
+
   return (
-    <Card className="pt-0">
+    <Card className={cn('pt-0', className)}>
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1">
-          <CardTitle>Area Chart - Interactive</CardTitle>
+          <CardTitle>Histórico de asistencia</CardTitle>
           <CardDescription>
-            Showing total visitors for the last 3 months
+            Mostrar historico de asistencia de los ultimos 3 meses
           </CardDescription>
         </div>
         <Select value={timeRange} onValueChange={setTimeRange}>
@@ -78,13 +77,13 @@ export function ChartAreaInteractive() {
           </SelectTrigger>
           <SelectContent className="rounded-xl">
             <SelectItem value="90d" className="rounded-lg">
-              Last 3 months
+              Últimos 3 meses
             </SelectItem>
             <SelectItem value="30d" className="rounded-lg">
-              Last 30 days
+              Últimos 30 días
             </SelectItem>
             <SelectItem value="7d" className="rounded-lg">
-              Last 7 days
+              Últimos 7 días
             </SelectItem>
           </SelectContent>
         </Select>
@@ -96,27 +95,33 @@ export function ChartAreaInteractive() {
         >
           <AreaChart data={filteredData}>
             <defs>
-              <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient
+                id="fillPrayerService"
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1"
+              >
                 <stop
                   offset="5%"
-                  stopColor="var(--color-desktop)"
+                  stopColor="var(--chart-2)"
                   stopOpacity={0.8}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-desktop)"
+                  stopColor="var(--chart-2)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
-              <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="fillSundaySchool" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--color-mobile)"
+                  stopColor="var(--primary)"
                   stopOpacity={0.8}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-mobile)"
+                  stopColor="var(--primary)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -130,7 +135,7 @@ export function ChartAreaInteractive() {
               minTickGap={32}
               tickFormatter={value => {
                 const date = new Date(value);
-                return date.toLocaleDateString('en-US', {
+                return date.toLocaleDateString('es-ES', {
                   month: 'short',
                   day: 'numeric',
                 });
@@ -141,7 +146,7 @@ export function ChartAreaInteractive() {
               content={
                 <ChartTooltipContent
                   labelFormatter={value => {
-                    return new Date(value).toLocaleDateString('en-US', {
+                    return new Date(value).toLocaleDateString('es-ES', {
                       month: 'short',
                       day: 'numeric',
                     });
@@ -151,17 +156,17 @@ export function ChartAreaInteractive() {
               }
             />
             <Area
-              dataKey="mobile"
+              dataKey="desktop"
               type="natural"
-              fill="url(#fillMobile)"
-              stroke="var(--color-mobile)"
+              fill="url(#fillPrayerService)"
+              stroke="var(--chart-2)"
               stackId="a"
             />
             <Area
-              dataKey="desktop"
+              dataKey="mobile"
               type="natural"
-              fill="url(#fillDesktop)"
-              stroke="var(--color-desktop)"
+              fill="url(#fillSundaySchool)"
+              stroke="var(--primary)"
               stackId="a"
             />
             <ChartLegend content={<ChartLegendContent />} />

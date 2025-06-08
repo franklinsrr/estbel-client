@@ -19,7 +19,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="bg-transparent backdrop-blur-md border-b border-border/20">
+    <header className="bg-transparent backdrop-blur-md border-b border-border/20 sticky top-0 z-50">
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Left side - Logo and Navigation Links */}
