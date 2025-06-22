@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
@@ -17,20 +18,29 @@ import { SIGNIN_DEFAULT_VALUES } from '@/constants/auth';
 import { Separator } from '@radix-ui/react-separator';
 import Link from 'next/link';
 import { TSignInSchema } from '@/interfaces/auth';
+import { httpAuthClient } from '@/http/httpAuthClient';
 
 /**
  * SignInPage is a page that allows the user to sign in to their account.
  * @returns {React.FC<SignInPage>} SignInPage component
  */
 export default function SignInPage() {
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<TSignInSchema>({
     resolver: zodResolver(formSignInSchema),
     defaultValues: SIGNIN_DEFAULT_VALUES,
   });
 
-  function onSubmit(values: TSignInSchema) {
-    // Handle form submission here
-    console.log(values);
+  async function onSubmit(values: TSignInSchema) {
+    try {
+      setIsLoading(true);
+      const res = await httpAuthClient.login(values.email, values.password);
+      console.log(res.sub);
+    } catch (error) {
+      console.log('error', error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -87,8 +97,8 @@ export default function SignInPage() {
                 Olvidaste tu contraseña
               </Link>
             </p>
-            <Button type="submit" className="w-full">
-              Login
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? 'Cargando...' : 'Login'}
             </Button>
           </form>
         </Form>
