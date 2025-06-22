@@ -10,8 +10,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "jest",
-    "test:watch": "jest --watch",
-    "prepare": "husky"
+    "test:watch": "jest --watch"
   },
   "overrides": {
     "react-is": "^19.0.0-rc-69d4b800-20241021"
@@ -51,7 +50,6 @@
     "babel-plugin-react-compiler": "19.0.0-beta-e993439-20250328",
     "eslint": "^9",
     "eslint-config-next": "15.2.2",
-    "husky": "^9.1.7",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "prettier": "^3.5.3",
