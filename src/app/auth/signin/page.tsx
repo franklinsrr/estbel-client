@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
@@ -26,6 +27,7 @@ import { httpAuthClient } from '@/http/httpAuthClient';
  */
 export default function SignInPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
   const form = useForm<TSignInSchema>({
     resolver: zodResolver(formSignInSchema),
     defaultValues: SIGNIN_DEFAULT_VALUES,
@@ -35,7 +37,8 @@ export default function SignInPage() {
     try {
       setIsLoading(true);
       const res = await httpAuthClient.login(values.email, values.password);
-      console.log(res.sub);
+      console.log(res.decodedToken.exp);
+      router.push('/dashboard');
     } catch (error) {
       console.log('error', error);
     } finally {
