@@ -14,9 +14,14 @@ export interface IAuthResponse {
 }
 
 export interface IAuth {
-  sub: string;
-  iat: number;
-  exp: number;
+  accessToken: string;
+  decodedToken: {
+    sub: string;
+    iat: number;
+    exp: number;
+  };
+}
+
 export interface IAuthStore {
   auth: IAuth | null;
   setAuth: (auth: IAuth) => void;
