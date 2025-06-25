@@ -18,7 +18,7 @@ import { formSignInSchema } from '@/schemas/auth';
 import { SIGNIN_DEFAULT_VALUES } from '@/constants/auth';
 import { Separator } from '@radix-ui/react-separator';
 import Link from 'next/link';
-import { TSignInSchema } from '@/interfaces/auth';
+import { IAuthError, TSignInSchema } from '@/interfaces/auth';
 import { httpAuthClient } from '@/http/httpAuthClient';
 import { useAuthStore } from '@/store/useAuth';
 
@@ -43,8 +43,8 @@ export default function SignInPage() {
       setAuth(res);
       router.push('/dashboard');
     } catch (error) {
-      console.log('error', error);
-      setError('Credenciales incorrectas');
+      const errorMessage = (error as IAuthError).message;
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
