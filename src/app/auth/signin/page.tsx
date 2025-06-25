@@ -43,6 +43,7 @@ export default function SignInPage() {
       setAuth(res);
       router.push('/dashboard');
     } catch (error) {
+      console.log('error', error);
       setError('Credenciales incorrectas');
     } finally {
       setIsLoading(false);
