@@ -13,6 +13,12 @@ export interface IAuthResponse {
   accessToken: string;
 }
 
+export interface IAuthError {
+  message: string;
+  error: string;
+  statusCode: number;
+}
+
 export interface IAuth {
   accessToken: string;
   decodedToken: {

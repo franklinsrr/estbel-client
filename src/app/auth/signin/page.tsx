@@ -18,8 +18,9 @@ import { formSignInSchema } from '@/schemas/auth';
 import { SIGNIN_DEFAULT_VALUES } from '@/constants/auth';
 import { Separator } from '@radix-ui/react-separator';
 import Link from 'next/link';
-import { TSignInSchema } from '@/interfaces/auth';
+import { IAuthError, TSignInSchema } from '@/interfaces/auth';
 import { httpAuthClient } from '@/http/httpAuthClient';
+import { useAuthStore } from '@/store/useAuth';
 
 /**
  * SignInPage is a page that allows the user to sign in to their account.
@@ -27,6 +28,8 @@ import { httpAuthClient } from '@/http/httpAuthClient';
  */
 export default function SignInPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const { setAuth } = useAuthStore();
   const router = useRouter();
   const form = useForm<TSignInSchema>({
     resolver: zodResolver(formSignInSchema),
@@ -37,10 +40,11 @@ export default function SignInPage() {
     try {
       setIsLoading(true);
       const res = await httpAuthClient.login(values.email, values.password);
-      console.log(res.decodedToken.exp);
+      setAuth(res);
       router.push('/dashboard');
     } catch (error) {
-      console.log('error', error);
+      const errorMessage = (error as IAuthError).message;
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -91,6 +95,7 @@ export default function SignInPage() {
                 </FormItem>
               )}
             />
+            {error && <p className="text-red-500">{error}</p>}
             <Separator
               orientation="horizontal"
               className="my-4 h-0.5 bg-gray-100"
