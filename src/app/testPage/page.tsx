@@ -1,5 +1,5 @@
-import Link from 'next/link'
- 
+import Link from 'next/link';
+
 export default function Page() {
   return (
     <div>
@@ -8,5 +8,5 @@ export default function Page() {
       <Link href="/home">Home</Link>
       <Link href="/home">Dashboard</Link>
     </div>
-  )
+  );
 }
