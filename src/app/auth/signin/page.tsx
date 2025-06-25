@@ -28,6 +28,7 @@ import { useAuthStore } from '@/store/useAuth';
  */
 export default function SignInPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const { setAuth } = useAuthStore();
   const router = useRouter();
   const form = useForm<TSignInSchema>({
@@ -42,7 +43,7 @@ export default function SignInPage() {
       setAuth(res);
       router.push('/dashboard');
     } catch (error) {
-      console.log('error', error);
+      setError('Credenciales incorrectas');
     } finally {
       setIsLoading(false);
     }
@@ -93,6 +94,7 @@ export default function SignInPage() {
                 </FormItem>
               )}
             />
+            {error && <p className="text-red-500">{error}</p>}
             <Separator
               orientation="horizontal"
               className="my-4 h-0.5 bg-gray-100"
