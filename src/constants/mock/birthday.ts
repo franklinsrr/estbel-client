@@ -1,66 +1,11 @@
-import { BirthdayPerson } from '@/components/BirthdayCard';
-
-/**
- * birthdayPeople is an array of birthday people.
- */
-export const birthdayPeople: BirthdayPerson[] = [
-  {
-    id: '1',
-    name: 'María González',
-    phone: '+58 412-123-4567',
-    status: 'miembro',
-    birthDate: '2024-01-15',
-  },
-  {
-    id: '2',
-    name: 'Juan Pérez',
-    phone: '+58 424-987-6543',
-    status: 'bautizado',
-    birthDate: '2024-01-16',
-  },
-  {
-    id: '3',
-    name: 'Ana Rodríguez',
-    phone: '+58 416-555-0123',
-    status: 'visitante',
-    birthDate: '2024-01-17',
-  },
-  {
-    id: '4',
-    name: 'Ana Rodríguez',
-    phone: '+58 416-555-0123',
-    status: 'visitante',
-    birthDate: '2024-01-17',
-  },
-  {
-    id: '5',
-    name: 'Ana Rodríguez',
-    phone: '+58 416-555-0123',
-    status: 'visitante',
-    birthDate: '2024-01-17',
-  },
-  {
-    id: '6',
-    name: 'Ana Rodríguez',
-    phone: '+58 416-555-0123',
-    status: 'visitante',
-    birthDate: '2024-01-17',
-  },
-  {
-    id: '7',
-    name: 'Ana Rodríguez',
-    phone: '+58 416-555-0123',
-    status: 'visitante',
-    birthDate: '2024-01-17',
-  },
-];
+import { IMember } from '@/interfaces/member';
 
 /**
  * getStatusColor is a function that returns the color of the status of a birthday person.
  * @param {BirthdayPerson['status']} status - The status of the birthday person.
  * @returns {string} The color of the status of the birthday person.
  */
-export const getStatusColor = (status: BirthdayPerson['status']) => {
+export const getStatusColor = (status: IMember['memberStatus']['name']) => {
   switch (status) {
     case 'miembro':
       return 'text-green-600 bg-green-100';
