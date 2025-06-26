@@ -1,7 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { navbarLinks } from '@/constants/navbar/links';
+import { httpAuthClient } from '@/http/httpAuthClient';
+import { toast } from 'sonner';
 
 /**
  * Navbar is a component that displays a navigation bar with a logo, navigation links, and a dropdown menu.
@@ -9,13 +12,34 @@ import { navbarLinks } from '@/constants/navbar/links';
  */
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const router = useRouter();
 
+  /**
+   * Toggles the dropdown menu
+   */
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  /**
+   * Closes the dropdown menu
+   */
   const closeDropdown = () => {
     setIsDropdownOpen(false);
+  };
+
+  /**
+   * Handles the logout logic
+   */
+  const handleLogout = async () => {
+    try {
+      await httpAuthClient.logout();
+      localStorage.removeItem('accessToken');
+      router.push('/auth/signin');
+    } catch (error) {
+      toast.error('Error al cerrar sesión');
+      console.error(error);
+    }
   };
 
   return (
@@ -80,11 +104,7 @@ const Navbar = () => {
                       Configuración
                     </a>
                     <button
-                      onClick={() => {
-                        closeDropdown();
-                        // Add logout logic here
-                        console.log('Logout clicked');
-                      }}
+                      onClick={handleLogout}
                       className="block w-full text-left px-4 py-2 text-sm text-foreground hover:bg-muted transition-colors"
                     >
                       Cerrar sesión
