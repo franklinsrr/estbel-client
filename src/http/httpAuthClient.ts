@@ -10,6 +10,12 @@ class HTTPAuthClient {
     private readonly jwt: IJWT
   ) {}
 
+  /**
+   * Login the user
+   * @param {string} email - The user's email
+   * @param {string} password - The user's password
+   * @returns {Promise<IAuth>} The user's auth
+   */
   async login(email: string, password: string): Promise<IAuth> {
     const response = await this.httpClient.post<IAuthResponse>('/auth/login', {
       email,
@@ -26,6 +32,10 @@ class HTTPAuthClient {
       accessToken: token,
       decodedToken: decoded,
     };
+  }
+
+  async logout() {
+    await this.httpClient.post('/auth/logout');
   }
 }
 
