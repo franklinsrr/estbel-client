@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import {
   Card,
@@ -9,18 +9,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { birthdayPeople, getStatusColor } from '@/constants/mock/birthday';
+import { getStatusColor } from '@/constants/mock/birthday';
+import { httpBirthdayClient } from '@/http/dashboardHome/httpBirthdayClient';
+import { IMember } from '@/interfaces/member';
 
 /**
  * BirthdayPerson is an interface that represents a birthday person.
  */
-export interface BirthdayPerson {
-  id: string;
-  name: string;
-  phone: string;
-  status: 'bautizado' | 'miembro' | 'visitante';
-  birthDate: string;
-}
 
 /**
  * BirthdayCard is a component that displays a birthday card.
@@ -28,16 +23,25 @@ export interface BirthdayPerson {
  */
 export const BirthdayCard: FC = () => {
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [birthdayPeople, setBirthdayPeople] = useState<IMember[]>([]);
 
-  const getStatusLabel = (status: BirthdayPerson['status']) => {
+  const getStatusLabel = (status: IMember['memberStatus']['name']) => {
     return status.charAt(0).toUpperCase() + status.slice(1);
   };
 
-  const copyToClipboard = async (person: BirthdayPerson) => {
-    const dataText = `Nombre: ${person.name}
+  useEffect(() => {
+    const fetchBirthdayPeople = async () => {
+      const birthdayPeople = await httpBirthdayClient.getBirthday();
+      setBirthdayPeople(birthdayPeople);
+    };
+    fetchBirthdayPeople();
+  }, []);
+
+  const copyToClipboard = async (person: IMember) => {
+    const dataText = `Nombre: ${person.firstName} ${person.lastName}
 Teléfono: ${person.phone}
-Estado: ${getStatusLabel(person.status)}
-Fecha de cumpleaños: ${person.birthDate}`;
+Estado: ${getStatusLabel(person.memberStatus.name)}
+Fecha de cumpleaños: ${person.birthdate}`;
 
     try {
       await navigator.clipboard.writeText(dataText);
@@ -48,7 +52,7 @@ Fecha de cumpleaños: ${person.birthDate}`;
       }, 2000);
     } catch (err) {
       toast.error('Error while copying to clipboard');
-      console.error('Error al copiar al portapapeles:', err);
+      console.error('Error while copying to clipboard', err);
       // Fallback para navegadores que no soportan clipboard API
       const textArea = document.createElement('textarea');
       textArea.value = dataText;
@@ -86,16 +90,18 @@ Fecha de cumpleaños: ${person.birthDate}`;
                 }`}
               >
                 <div className="flex-1">
-                  <h4 className="font-medium text-gray-900">{person.name}</h4>
+                  <h4 className="font-medium text-gray-900">
+                    {person.firstName} {person.lastName}
+                  </h4>
                   <p className="text-sm text-gray-600 mt-1">{person.phone}</p>
                 </div>
                 <div className="ml-4 flex items-center space-x-2">
                   <span
                     className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(
-                      person.status
+                      person.memberStatus.name
                     )}`}
                   >
-                    {getStatusLabel(person.status)}
+                    {getStatusLabel(person.memberStatus.name)}
                   </span>
                   {copiedId === person.id && (
                     <span className="text-xs text-green-600 font-medium">
