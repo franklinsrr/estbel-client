@@ -2,20 +2,36 @@ import { useAuthStore } from '@/store/useAuth';
 import axios from 'axios';
 
 export const httpClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001',
   withCredentials: true,
 });
 
-httpClient.interceptors.request.use(config => {
-  const auth = useAuthStore.getState().auth;
+// Configurar interceptor de request globalmente
+httpClient.interceptors.request.use(
+  config => {
+    console.log('🔍 Interceptor ejecutándose...');
 
-  if (auth) {
-    localStorage.setItem('accessToken', JSON.stringify(auth));
-  }
+    // Primero intentar obtener del estado de Zustand
+    const currentAuth = useAuthStore.getState().auth;
 
-  const accessToken = localStorage.getItem('accessToken') || auth?.accessToken;
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
+    if (currentAuth?.accessToken) {
+      const storedToken = localStorage.getItem('accessToken');
+      if (!storedToken || storedToken !== currentAuth.accessToken) {
+        localStorage.setItem('accessToken', currentAuth.accessToken);
+      }
+
+      config.headers.Authorization = `Bearer ${currentAuth.accessToken}`;
+    } else {
+      // Fallback a localStorage
+      const storedToken = localStorage.getItem('accessToken');
+      if (storedToken) {
+        config.headers.Authorization = `Bearer ${storedToken}`;
+      }
+    }
+
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
   }
-  return config;
-});
+);
