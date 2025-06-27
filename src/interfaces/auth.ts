@@ -9,7 +9,7 @@ export interface TChangePasswordSchema {
   newPassword: string;
 }
 
-export interface IAuthResponse {
+export interface IAuthRequestResponse {
   accessToken: string;
   refreshToken: string;
 }
