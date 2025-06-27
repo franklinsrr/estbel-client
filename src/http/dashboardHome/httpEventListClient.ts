@@ -1,8 +1,8 @@
 import { httpClient } from '../httpClient';
-import { IEvent } from '@/interfaces/events';
+import { IEventRequestResponse } from '@/interfaces/events';
 
-export const getEventListClient = async (): Promise<IEvent> => {
-  const response = await httpClient.get<IEvent>(
+export const getEventListClient = async (): Promise<IEventRequestResponse> => {
+  const response = await httpClient.get<IEventRequestResponse>(
     '/stats/events-with-attendances'
   );
   return response.data;
