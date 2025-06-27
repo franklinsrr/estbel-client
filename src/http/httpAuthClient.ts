@@ -34,6 +34,32 @@ class HTTPAuthClient {
     };
   }
 
+  /**
+   * Refresh the access token using the refresh token
+   * @param {string} refreshToken - The refresh token
+   * @returns {Promise<IAuth>} The new auth with refreshed tokens
+   */
+  async refreshToken(refreshToken: string): Promise<IAuth> {
+    const response = await this.httpClient.post<IAuthResponse>(
+      '/auth/refresh-token',
+      {
+        refreshToken,
+      }
+    );
+
+    const token = response.data.accessToken;
+    const decoded = (await this.jwt.decode(token)) as unknown as {
+      sub: string;
+      iat: number;
+      exp: number;
+    };
+
+    return {
+      accessToken: token,
+      decodedToken: decoded,
+    };
+  }
+
   async logout() {
     await this.httpClient.post('/auth/logout');
   }
