@@ -1,4 +1,4 @@
-import { IAuth, IAuthResponse } from '@/interfaces/auth';
+import { IAuth, IAuthRequestResponse } from '@/interfaces/auth';
 import { AxiosInstance } from 'axios';
 import { httpClient } from './httpClient';
 import { IJWT } from '@/interfaces/jwt';
@@ -17,10 +17,13 @@ class HTTPAuthClient {
    * @returns {Promise<IAuth>} The user's auth
    */
   async login(email: string, password: string): Promise<IAuth> {
-    const response = await this.httpClient.post<IAuthResponse>('/auth/login', {
-      email,
-      password,
-    });
+    const response = await this.httpClient.post<IAuthRequestResponse>(
+      '/auth/login',
+      {
+        email,
+        password,
+      }
+    );
 
     const token = response.data.accessToken;
     const decoded = (await this.jwt.decode(token)) as unknown as {
@@ -40,7 +43,7 @@ class HTTPAuthClient {
    * @returns {Promise<IAuth>} The new auth with refreshed tokens
    */
   async refreshToken(refreshToken: string): Promise<IAuth> {
-    const response = await this.httpClient.post<IAuthResponse>(
+    const response = await this.httpClient.post<IAuthRequestResponse>(
       '/auth/refresh-token',
       {
         refreshToken,
