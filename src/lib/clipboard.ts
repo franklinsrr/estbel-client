@@ -1,4 +1,8 @@
 export class Clipboard {
+  /**
+   * Copy text to clipboard
+   * @param text - The text to copy
+   */
   static async copyToClipboard(text: string) {
     try {
       await navigator.clipboard.writeText(text);
