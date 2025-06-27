@@ -2,9 +2,9 @@ import Navbar from '@components/navbat';
 import CardStats from '@components/CardStats';
 import { cardStatsMock } from '@/constants/mock/card';
 import { AttendentHistoryChart } from '@/components/charts/AttendentHistoryChart';
-import { BirthdayCard } from '@/components/BirthdayCard';
+import { BirthdayCard } from '@/components/ui/BirthdayCard';
 import { Separator } from '@components/ui/Separator';
-import { RecentEventsTable } from '@/components/RecentEventsTable';
+import { RecentEventsTable } from '@/components/ui/RecentEventsTable';
 
 /**
  * Dashboard is a page that displays a dashboard with a navbar and a grid of card stats.
