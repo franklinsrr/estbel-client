@@ -28,12 +28,9 @@ export const UseAuthWrapper: FC<PropsWithChildren> = ({ children }) => {
               },
             };
             setAuth(authData);
-          } else {
-            localStorage.removeItem('accessToken');
           }
         }
       } catch (error) {
-        localStorage.removeItem('accessToken');
         console.error('Error al inicializar el auth', error);
       }
     };
