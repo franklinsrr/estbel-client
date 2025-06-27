@@ -11,6 +11,7 @@ export interface TChangePasswordSchema {
 
 export interface IAuthResponse {
   accessToken: string;
+  refreshToken: string;
 }
 
 export interface IAuthError {
