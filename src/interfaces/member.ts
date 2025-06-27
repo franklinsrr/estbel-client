@@ -20,11 +20,13 @@ export interface IMember {
   firstVisitAt: string;
   createdAt: string;
   updatedAt: string;
-  memberStatus: {
-    id: string;
-    name: string;
-    description: string;
-    createdAt: string;
-    updatedAt: string;
-  };
+  memberStatus: IMemberStatus;
+}
+
+export interface IMemberStatus {
+  id: string;
+  name: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
 }
