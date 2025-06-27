@@ -25,7 +25,7 @@ import {
 import { Calendar, Users, MapPin } from 'lucide-react';
 import { formatDate, formatTime } from '@/constants/mock/tables';
 import { getEventListClient } from '@/http/dashboardHome/httpEventListClient';
-import { IEvent } from '@/interfaces/events';
+import { IEventRequestResponse } from '@/interfaces/events';
 
 // Helper function to convert string dates to Date objects
 const convertToDate = (dateString: string | Date): Date => {
@@ -69,7 +69,7 @@ const truncateText = (text: string, maxLength: number = 60): string => {
  * @returns {React.FC<RecentEventsTableProps>} RecentEventsTable component
  */
 export const RecentEventsTable: FC = () => {
-  const [events, setEvents] = useState<IEvent | null>(null);
+  const [events, setEvents] = useState<IEventRequestResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
