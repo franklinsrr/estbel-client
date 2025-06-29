@@ -41,3 +41,30 @@ export interface IMemberStatus {
   createdAt: Date;
   updatedAt: Date;
 }
+
+// event comparison
+
+export interface IEventsComparison {
+  event1: IEventResume;
+  event2: IEventResume;
+  dateRange: IDateRange;
+}
+
+export interface IDateRange {
+  startDate: Date;
+  endDate: Date;
+}
+
+export interface IEventResume {
+  eventId: string;
+  eventName: string;
+  dailyData: IDailyDatum[];
+}
+
+export interface IDailyDatum {
+  date: Date;
+  totalRegistered: number;
+  totalAttended: number;
+  totalNotAttended: number;
+  attendanceRate: number;
+}
