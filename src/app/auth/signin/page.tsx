@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
+import { useStore } from '@/store';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -16,36 +17,21 @@ import { Input } from '@/components/Input';
 import { formSignInSchema } from '@/schemas/auth';
 import { SIGNIN_DEFAULT_VALUES } from '@/constants/auth';
 import { Separator } from '@radix-ui/react-separator';
-import Link from 'next/link';
-import { IAuthError, TSignInSchema } from '@/interfaces/auth';
-import { httpAuthClient } from '@/http/httpAuthClient';
-import { useAuthStore } from '@/store/useAuth';
+import { TSignInSchema } from '@/interfaces/auth';
 
 /**
  * SignInPage is a page that allows the user to sign in to their account.
  * @returns {React.FC<SignInPage>} SignInPage component
  */
 export default function SignInPage() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const { setAuth } = useAuthStore();
+  const { setAuth, isLoading, error } = useStore();
   const form = useForm<TSignInSchema>({
     resolver: zodResolver(formSignInSchema),
     defaultValues: SIGNIN_DEFAULT_VALUES,
   });
 
   async function onSubmit(values: TSignInSchema) {
-    try {
-      setIsLoading(true);
-      const res = await httpAuthClient.login(values.email, values.password);
-      localStorage.setItem('accessToken', res.accessToken);
-      setAuth(res);
-    } catch (error) {
-      const errorMessage = (error as IAuthError).message;
-      setError(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
+    await setAuth({ username: values.email, password: values.password });
   }
 
   return (
@@ -93,7 +79,7 @@ export default function SignInPage() {
                 </FormItem>
               )}
             />
-            {error && <p className="text-red-500">{error}</p>}
+            {error && <p className="text-red-500">{error?.message}</p>}
             <Separator
               orientation="horizontal"
               className="my-4 h-0.5 bg-gray-100"
