@@ -2,12 +2,13 @@
 
 import { FC, PropsWithChildren, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/store/useAuth';
 import * as jose from 'jose';
+import { useStore } from '@/store';
 
 export const UseAuthWrapper: FC<PropsWithChildren> = ({ children }) => {
-  const auth = useAuthStore(state => state.auth);
-  const setAuth = useAuthStore(state => state.setAuth);
+  const auth = useStore(state => state.auth);
+  const setAuth = useStore(state => state.setAuth);
+  const setAuthSync = useStore(state => state.setAuthSync);
   const router = useRouter();
 
   useEffect(() => {
@@ -27,7 +28,7 @@ export const UseAuthWrapper: FC<PropsWithChildren> = ({ children }) => {
                 exp: decodedToken.exp as number,
               },
             };
-            setAuth(authData);
+            setAuthSync(authData);
           }
         }
       } catch (error) {
