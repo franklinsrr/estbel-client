@@ -30,8 +30,11 @@ export const CHANGE_PASSWORD_DEFAULT_VALUES = {
  * INITIAL_AUTH_STATE is the initial state for the authentication store.
  * @type {IAuthStore}
  */
+
 export const INITIAL_AUTH_STATE: IAuthStore = {
   auth: null,
-  setAuth: () => {},
+  loading: false,
+  error: null,
+  setAuth: async () => {},
   clearAuth: () => {},
 };
