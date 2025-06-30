@@ -1,4 +1,4 @@
-import { useAuthStore } from '@/store/useAuth';
+import { useStore } from '@/store';
 import axios from 'axios';
 
 export const httpClient = axios.create({
@@ -10,7 +10,7 @@ export const httpClient = axios.create({
 httpClient.interceptors.request.use(
   config => {
     // Primero intentar obtener del estado de Zustand
-    const currentAuth = useAuthStore.getState().auth;
+    const currentAuth = useStore.getState().auth;
 
     if (currentAuth?.accessToken) {
       const storedToken = localStorage.getItem('accessToken');
@@ -47,7 +47,7 @@ httpClient.interceptors.response.use(
 
       try {
         // Obtener el access token actual
-        const authState = useAuthStore.getState().auth;
+        const authState = useStore.getState().auth;
         const currentAccessToken =
           authState?.accessToken || localStorage.getItem('accessToken');
 
@@ -66,7 +66,7 @@ httpClient.interceptors.response.use(
         );
 
         // Actualizar el estado y localStorage con el nuevo access token
-        const currentAuth = useAuthStore.getState().auth;
+        const currentAuth = useStore.getState().auth;
         const newAuth = {
           accessToken: response.data.accessToken,
           decodedToken: currentAuth?.decodedToken || {
@@ -77,14 +77,14 @@ httpClient.interceptors.response.use(
         };
 
         localStorage.setItem('accessToken', response.data.accessToken);
-        useAuthStore.getState().setAuth(newAuth);
+        useStore.getState().setAuthSync(newAuth);
 
         // Reintentar la solicitud original con el nuevo token
         originalRequest.headers.Authorization = `Bearer ${response.data.accessToken}`;
         return httpClient(originalRequest);
       } catch (refreshError) {
         console.error('Error al renovar el token:', refreshError);
-        useAuthStore.getState().clearAuth();
+        useStore.getState().clearAuth();
         return Promise.reject(refreshError);
       }
     }
