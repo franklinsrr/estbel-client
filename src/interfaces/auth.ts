@@ -29,8 +29,14 @@ export interface IAuth {
   };
 }
 
-export interface IAuthStore {
+export interface IAuthSlice {
   auth: IAuth | null;
-  setAuth: (auth: IAuth) => void;
+  isLoading: boolean;
+  error: IAuthError | null;
+  setAuth: (credentials: {
+    username: string;
+    password: string;
+  }) => Promise<void>;
+  setAuthSync: (auth: IAuth) => void;
   clearAuth: () => void;
 }
