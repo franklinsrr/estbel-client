@@ -2,6 +2,8 @@
 
 import { FC, useState, useEffect } from 'react';
 import { toast } from 'sonner';
+import { useShallow } from 'zustand/react/shallow';
+import { useStore } from '@/store';
 import {
   Card,
   CardContent,
@@ -11,7 +13,6 @@ import {
 } from '@/components/ui/card';
 import { BirthdaySkeleton } from './BirthdayCardSkeleton';
 import { getStatusColor } from '@/constants/mock/birthday';
-import { httpBirthdayClient } from '@/http/dashboardHome/httpBirthdayClient';
 import { IMember } from '@/interfaces/member';
 import { Clipboard } from '@/lib/clipboard';
 
@@ -24,30 +25,36 @@ import { Clipboard } from '@/lib/clipboard';
  * @returns {React.FC<BirthdayCard>} BirthdayCard component
  */
 export const BirthdayCard: FC = () => {
-  const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [birthdayPeople, setBirthdayPeople] = useState<IMember[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { birthday, isBirthdayLoading, getBirthdays } = useStore(
+    useShallow(state => ({
+      birthday: state.birthday,
+      isBirthdayLoading: state.isBirthdayLoading,
+      getBirthdays: state.getBirthdays,
+    }))
+  );
 
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  /**
+   * Get the birthday people
+   */
+  useEffect(() => {
+    getBirthdays();
+  }, []);
+
+  /**
+   * Get the status label
+   * @param status - The status
+   * @returns {string} The status label
+   */
   const getStatusLabel = (status: IMember['memberStatus']['name']) => {
     return status.charAt(0).toUpperCase() + status.slice(1);
   };
 
-  useEffect(() => {
-    const fetchBirthdayPeople = async () => {
-      try {
-        setIsLoading(true);
-        const birthdayPeople = await httpBirthdayClient.getBirthday();
-        setBirthdayPeople(birthdayPeople);
-      } catch (error) {
-        console.error('Error fetching birthday people:', error);
-        toast.error('Error al cargar los cumpleaños');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchBirthdayPeople();
-  }, []);
-
+  /**
+   * Copy the birthday person to the clipboard
+   * @param person - The birthday person
+   */
   const copyToClipboard = async (person: IMember) => {
     const dataText = `Nombre: ${person.firstName} ${person.lastName}
 Teléfono: ${person.phone}
@@ -59,6 +66,8 @@ Fecha de cumpleaños: ${person.birthdate}`;
     setTimeout(() => {
       setCopiedId(null);
     }, 2000);
+
+    toast.success('Copiado al portapapeles');
   };
 
   return (
@@ -70,12 +79,12 @@ Fecha de cumpleaños: ${person.birthdate}`;
         </CardDescription>
       </CardHeader>
       <CardContent className="max-h-[289px] overflow-y-auto">
-        {isLoading ? (
+        {isBirthdayLoading ? (
           <BirthdaySkeleton />
         ) : (
           <div className="space-y-2">
-            {birthdayPeople.length > 0 ? (
-              birthdayPeople.map(person => (
+            {birthday.length > 0 ? (
+              birthday.map(person => (
                 <div
                   key={person.id}
                   onClick={() => copyToClipboard(person)}
