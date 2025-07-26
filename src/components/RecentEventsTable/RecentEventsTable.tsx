@@ -45,6 +45,9 @@ export const RecentEventsTable: FC = () => {
     }))
   );
 
+  /**
+   * Get the events
+   */
   useEffect(() => {
     getEvents();
   }, [getEvents]);
