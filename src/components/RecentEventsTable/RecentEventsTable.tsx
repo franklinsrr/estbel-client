@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import {
   Table,
   TableBody,
@@ -22,14 +22,13 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { Calendar, Users, MapPin } from 'lucide-react';
+import { useShallow } from 'zustand/react/shallow';
+import { useStore } from '@/store';
 import { formatDate, formatTime } from '@/constants/mock/tables';
-import { getEventListClient } from '@/http/dashboardHome/httpEventListClient';
-import { IEventRequestResponse } from '@/interfaces/events';
 import { getEventNameColor } from '@/lib/format';
 import { convertToDate } from '@/lib/date';
 import { truncateText } from '@/lib/text';
 import { RecentEventsTableSkeleton } from './RecentEventsTableSkeleton';
-import { IEventElement } from '@/interfaces/events';
 
 /**
  * RecentEventsTable is a component that displays a table of recent events.
@@ -38,17 +37,17 @@ import { IEventElement } from '@/interfaces/events';
  * @returns {React.FC<RecentEventsTableProps>} RecentEventsTable component
  */
 export const RecentEventsTable: FC = () => {
-  const [events, setEvents] = useState<IEventRequestResponse | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const { events, isLoading, getEvents } = useStore(
+    useShallow(state => ({
+      events: state.events,
+      isLoading: state.isEventsLoading,
+      getEvents: state.getEvents,
+    }))
+  );
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      const response = await getEventListClient();
-      setEvents(response);
-      setIsLoading(false);
-    };
-    fetchEvents();
-  }, []);
+    getEvents();
+  }, [getEvents]);
 
   return (
     <Card>
@@ -81,13 +80,12 @@ export const RecentEventsTable: FC = () => {
               Array.from({ length: 5 }).map((_, index) => (
                 <RecentEventsTableSkeleton key={`skeleton-${index}`} />
               ))
-            ) : events?.events && events.events.length > 0 ? (
+            ) : events && events.length > 0 ? (
               // Actual data
-              events.events.map((event: IEventElement) => {
+              events.map(event => {
                 const totalAttendances = event.attendances?.length || 0;
                 const actualAttendances =
-                  event.attendances?.filter(attendance => attendance.attended)
-                    .length || 0;
+                  event.attendances?.filter(a => a.attended).length || 0;
                 const attendanceRate =
                   totalAttendances > 0
                     ? Math.round((actualAttendances / totalAttendances) * 100)
@@ -187,7 +185,7 @@ export const RecentEventsTable: FC = () => {
           </TableBody>
         </Table>
 
-        {events?.events.length === 0 && (
+        {events && events.length === 0 && !isLoading && (
           <div className="text-center py-8 text-muted-foreground">
             <Calendar className="h-12 w-12 mx-auto mb-4 opacity-50" />
             <p>No hay eventos recientes para mostrar</p>
