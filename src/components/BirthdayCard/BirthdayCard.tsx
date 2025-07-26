@@ -71,7 +71,7 @@ Fecha de cumpleaños: ${person.birthdate}`;
   };
 
   return (
-    <Card>
+    <Card className="md:col-span-2 lg:col-span-1">
       <CardHeader>
         <CardTitle>Cumpleaños</CardTitle>
         <CardDescription>
