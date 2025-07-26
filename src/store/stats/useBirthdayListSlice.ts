@@ -53,11 +53,11 @@ export const useBirthdayListSlice: StateCreator<
     set({ isLoading: true });
     try {
       const res = await httpBirthdayClient.getBirthday();
-      set({ birthday: res, error: null, isLoading: false });
+      set({ birthday: res, birthdayError: null, isBirthdayLoading: false });
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Unknown error occurred';
-      set({ error: errorMessage, isLoading: false });
+      set({ birthdayError: errorMessage, isBirthdayLoading: false });
     }
   },
 
@@ -75,6 +75,6 @@ export const useBirthdayListSlice: StateCreator<
    * ```
    */
   clearBirthdays: () => {
-    set({ birthday: [], error: null, isLoading: false });
+    set({ birthday: [], birthdayError: null, isBirthdayLoading: false });
   },
 });
