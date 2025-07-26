@@ -7,8 +7,11 @@ export const CURRENT_MONTH = today.getMonth() + 1;
 
 export const CURRENT_DAY = today.getDate();
 
-export const INITIAL_BIRTHDAY_STATE: IBirthdaySlice = {
+export const INITIAL_BIRTHDAY_STATE: Omit<
+  IBirthdaySlice,
+  'getBirthdays' | 'clearBirthdays'
+> = {
   birthday: [],
-  isLoading: false,
-  error: null,
+  isBirthdayLoading: false,
+  birthdayError: null,
 };
