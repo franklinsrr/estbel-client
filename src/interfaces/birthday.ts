@@ -2,8 +2,8 @@ import { IMember } from './member';
 
 export interface IBirthdaySlice {
   birthday: IMember[];
-  isLoading: boolean;
-  error: string | null;
+  isBirthdayLoading: boolean;
+  birthdayError: string | null;
   getBirthdays: () => Promise<void>;
   clearBirthdays: () => void;
 }
