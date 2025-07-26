@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
 import {
   Card,
@@ -25,17 +25,18 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
-export const description = 'An interactive area chart';
-import { AttendanceChartData } from '@/constants/mock/chart';
+
+import { useStore } from '@/store';
+import { useShallow } from 'zustand/react/shallow';
 
 const chartConfig = {
-  prayerService: {
-    label: 'Culto de oración',
-    color: 'var(--chart-2)',
-  },
-  sundaySchool: {
-    label: 'Escuela dominical',
+  event1: {
+    label: 'culto dominical matutino',
     color: 'var(--primary)',
+  },
+  event2: {
+    label: 'culto dominical vespertino',
+    color: 'var(--chart-2)',
   },
 } satisfies ChartConfig;
 
@@ -45,16 +46,28 @@ const chartConfig = {
  */
 export function AttendentHistoryChart({ className }: { className?: string }) {
   const [timeRange, setTimeRange] = useState('90d');
-  const filteredData = AttendanceChartData.filter(item => {
+  const { history, getEventsAttendanceChartHistory } = useStore(
+    useShallow(state => ({
+      history: state.history,
+      isHistoryLoading: state.isHistoryLoading,
+      getEventsAttendanceChartHistory: state.getEventsAttendanceChartHistory,
+    }))
+  );
+
+  useEffect(() => {
+    getEventsAttendanceChartHistory();
+  }, [getEventsAttendanceChartHistory]);
+
+  const filteredData = history.filter(item => {
     const date = new Date(item.date);
-    const referenceDate = new Date('2024-06-30');
+    const now = new Date();
     let daysToSubtract = 90;
     if (timeRange === '30d') {
       daysToSubtract = 30;
     } else if (timeRange === '7d') {
       daysToSubtract = 7;
     }
-    const startDate = new Date(referenceDate);
+    const startDate = new Date(now);
     startDate.setDate(startDate.getDate() - daysToSubtract);
     return date >= startDate;
   });
@@ -95,33 +108,27 @@ export function AttendentHistoryChart({ className }: { className?: string }) {
         >
           <AreaChart data={filteredData}>
             <defs>
-              <linearGradient
-                id="fillPrayerService"
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="1"
-              >
+              <linearGradient id="fillEvent1" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--chart-2)"
+                  stopColor="var(--primary)"
                   stopOpacity={0.8}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--chart-2)"
+                  stopColor="var(--primary)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
-              <linearGradient id="fillSundaySchool" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="fillEvent2" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--primary)"
+                  stopColor="var(--chart-2)"
                   stopOpacity={0.8}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--primary)"
+                  stopColor="var(--chart-2)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -156,16 +163,16 @@ export function AttendentHistoryChart({ className }: { className?: string }) {
               }
             />
             <Area
-              dataKey="desktop"
+              dataKey="event2"
               type="natural"
-              fill="url(#fillPrayerService)"
+              fill="url(#fillEvent2)"
               stroke="var(--chart-2)"
               stackId="a"
             />
             <Area
-              dataKey="mobile"
+              dataKey="event1"
               type="natural"
-              fill="url(#fillSundaySchool)"
+              fill="url(#fillEvent1)"
               stroke="var(--primary)"
               stackId="a"
             />
