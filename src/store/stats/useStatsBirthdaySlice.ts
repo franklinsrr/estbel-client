@@ -24,7 +24,9 @@ export const useStatsBirthdaySlice: StateCreator<
       const res = await httpBirthdayClient.getBirthday();
       set({ birthday: res, error: null, isLoading: false });
     } catch (error) {
-      set({ error: error as string, isLoading: false });
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error occurred';
+      set({ error: errorMessage, isLoading: false });
     }
   },
 
