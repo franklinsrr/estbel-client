@@ -68,3 +68,11 @@ export interface IDailyDatum {
   totalNotAttended: number;
   attendanceRate: number;
 }
+
+// Events table state interface
+export interface IEventsTableState {
+  events: IEventElement[];
+  isEventsLoading: boolean;
+  eventsError: string | null;
+  getEvents: () => Promise<void>;
+}
