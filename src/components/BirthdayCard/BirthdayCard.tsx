@@ -15,6 +15,7 @@ import { BirthdaySkeleton } from './BirthdayCardSkeleton';
 import { getStatusColor } from '@/constants/mock/birthday';
 import { IMember } from '@/interfaces/member';
 import { Clipboard } from '@/lib/clipboard';
+import { formatBirthayText, getStatusLabel } from '@/lib/text';
 
 /**
  * BirthdayPerson is an interface that represents a birthday person.
@@ -43,23 +44,11 @@ export const BirthdayCard: FC = () => {
   }, []);
 
   /**
-   * Get the status label
-   * @param status - The status
-   * @returns {string} The status label
-   */
-  const getStatusLabel = (status: IMember['memberStatus']['name']) => {
-    return status.charAt(0).toUpperCase() + status.slice(1);
-  };
-
-  /**
    * Copy the birthday person to the clipboard
    * @param person - The birthday person
    */
   const copyToClipboard = async (person: IMember) => {
-    const dataText = `Nombre: ${person.firstName} ${person.lastName}
-Teléfono: ${person.phone}
-Estado: ${getStatusLabel(person.memberStatus.name)}
-Fecha de cumpleaños: ${person.birthdate}`;
+    const dataText = formatBirthayText(person);
 
     await Clipboard.copyToClipboard(dataText);
     setCopiedId(person.id);
