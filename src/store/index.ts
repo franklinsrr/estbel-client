@@ -3,8 +3,8 @@ import { immer } from 'zustand/middleware/immer';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { TStore } from '@/interfaces/store';
 import { useAuthSlice } from './auth/useAuthSlice';
-import { useStats2EventChartSlice } from './stats/useStats2EventChartSlice';
-import { useStatsBirthdaySlice } from './stats/useStatsBirthdaySlice';
+import { useEventChartSlice } from './stats/useEventChartSlice';
+import { useBirthdayListSlice } from './stats/useBirthdayListSlice';
 import { useEventsTableSlice } from './stats/useEventsTableSlice';
 
 /**
@@ -15,8 +15,8 @@ export const useStore = create<TStore>()(
   subscribeWithSelector(
     immer((...a) => ({
       ...useAuthSlice(...a),
-      ...useStats2EventChartSlice(...a),
-      ...useStatsBirthdaySlice(...a),
+      ...useEventChartSlice(...a),
+      ...useBirthdayListSlice(...a),
       ...useEventsTableSlice(...a),
     }))
   )
